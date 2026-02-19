@@ -39,3 +39,15 @@ next-env.d.ts
 .env
 
 /src/generated/prisma
+
+# database
+*.db
+
+# build artifacts
+tsconfig.tsbuildinfo
+
+# agent/workflow config
+.agent/
+
+# editor
+.vscode/
