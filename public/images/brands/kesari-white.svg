@@ -1,0 +1,9 @@
+<svg width="380" height="60" viewBox="0 0 380 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gear Icon -->
+  <path d="M45,30 L55,30 M50,25 L50,35 M30,10 L35,15 L40,10 M60,10 L65,15 L70,10 M30,50 L35,45 L40,50 M60,50 L65,45 L70,50" stroke="white" stroke-width="2" />
+  <circle cx="50" cy="30" r="15" stroke="white" stroke-width="3" fill="none" />
+  <circle cx="50" cy="30" r="5" fill="white" />
+  
+  <!-- Text -->
+  <text x="80" y="38" font-family="Arial, sans-serif" font-weight="bold" font-size="24" fill="white">KESARI ENGINEERING</text>
+</svg>

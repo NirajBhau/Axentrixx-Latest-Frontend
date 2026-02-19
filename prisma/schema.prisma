@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Contact Form Submissions
+model Contact {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String   @db.Text
+  status    ContactStatus   @default(NEW)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([createdAt])
+}
+
+enum ContactStatus {
+  NEW
+  CONTACTED
+  RESOLVED
+}
+
+// Newsletter Subscriptions
+model Newsletter {
+  id             String    @id @default(uuid())
+  email          String    @unique
+  status         SubStatus @default(ACTIVE)
+  subscribedAt   DateTime  @default(now())
+  unsubscribedAt DateTime?
+
+  @@index([email])
+}
+
+enum SubStatus {
+  ACTIVE
+  UNSUBSCRIBED
+}
+
+// Consultation Bookings
+model Consultation {
+  id             String   @id @default(uuid())
+  firstName      String
+  lastName       String
+  email          String
+  phone          String?
+  countryCode    String?
+  companyName    String?
+  projectType    String?
+  projectBudget  String?
+  projectDetails String   @db.Text
+  status         ContactStatus   @default(NEW)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([email])
+  @@index([createdAt])
+}
+
+// Job Applications
+model JobApplication {
+  id              String   @id @default(uuid())
+  jobId           String?  // Optional: reference to job posting
+  jobTitle        String?  // Job title/position applied for
+  firstName       String
+  lastName        String
+  email           String
+  phone           String?
+  coverLetter     String?  @db.Text
+  resumeUrl       String   // URL to PDF in storage
+  resumeFileName  String
+  resumeSize      Int      // Size in bytes
+  status          ApplicationStatus @default(NEW)
+  appliedAt       DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([email])
+  @@index([createdAt])
+  @@index([status])
+}
+
+enum ApplicationStatus {
+  NEW
+  REVIEWING
+  INTERVIEW
+  REJECTED
+  HIRED
+}
