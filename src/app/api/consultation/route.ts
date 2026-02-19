@@ -22,6 +22,23 @@ export async function POST(request: NextRequest) {
 
     // Parse and validate body
     const body = await request.json();
+
+    // Verify reCAPTCHA
+    const { captchaToken } = body;
+    if (!captchaToken) {
+      return errorResponse('CAPTCHA verification failed. Please try again.', 400);
+    }
+
+    const verifyRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${captchaToken}`,
+    });
+    const verifyJson = await verifyRes.json();
+    if (!verifyJson.success) {
+      return errorResponse('Invalid CAPTCHA. Please try again.', 400);
+    }
+
     const result = consultationSchema.safeParse(body);
 
     if (!result.success) {

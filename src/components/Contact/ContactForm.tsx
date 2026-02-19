@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import SuccessMessage from "@/components/Common/SuccessMessage";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -29,6 +31,12 @@ const ContactForm = () => {
     setIsSubmitting(true);
     setErrorMessage("");
 
+    if (!captchaToken) {
+      setErrorMessage("Please complete the CAPTCHA verification.");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -37,8 +45,10 @@ const ContactForm = () => {
           name: formData.name,
           email: formData.email,
           phone: `${formData.countryCode} ${formData.phone}`,
-          subject: `Website Contact - ${formData.projectType || "General Inquiry"}`,
+          projectType: formData.projectType,
           message: formData.message,
+          subject: `Website Contact - ${formData.projectType || "General Inquiry"}`,
+          captchaToken,
         }),
       });
 
@@ -196,7 +206,13 @@ const ContactForm = () => {
               </div>
             )}
 
-            <div className="pt-2">
+            <div className="flex flex-col gap-4 pt-2">
+              <ReCAPTCHA
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                onChange={(token: string | null) => setCaptchaToken(token)}
+                theme="light"
+              />
+
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -219,6 +235,7 @@ const ContactForm = () => {
               projectType: "",
               message: "",
             });
+            setCaptchaToken(null);
           }}
           buttonText="SEND ANOTHER"
         />

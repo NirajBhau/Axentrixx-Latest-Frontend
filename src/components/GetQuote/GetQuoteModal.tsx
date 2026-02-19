@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useModal } from "@/context/ModalContext";
 import SuccessMessage from "@/components/Common/SuccessMessage";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const GetQuoteModal = () => {
   const { isOpen, closeModal } = useModal();
@@ -21,6 +22,7 @@ const GetQuoteModal = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   // Prevent scrolling when modal is open and reset state
   useEffect(() => {
@@ -31,6 +33,7 @@ const GetQuoteModal = () => {
       setIsSuccess(false);
       setIsSubmitting(false);
       setErrorMessage("");
+      setCaptchaToken(null);
       setFormData({
         firstName: "",
         lastName: "",
@@ -58,6 +61,12 @@ const GetQuoteModal = () => {
     setIsSubmitting(true);
     setErrorMessage("");
 
+    if (!captchaToken) {
+      setErrorMessage("Please complete the CAPTCHA verification.");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const response = await fetch("/api/consultation", {
         method: "POST",
@@ -72,6 +81,7 @@ const GetQuoteModal = () => {
           projectType: formData.projectType || undefined,
           projectBudget: formData.projectBudget || undefined,
           projectDetails: formData.projectDetails,
+          captchaToken,
         }),
       });
 
@@ -302,6 +312,14 @@ const GetQuoteModal = () => {
                   {errorMessage}
                 </div>
               )}
+
+              <div className="mb-6 flex justify-center">
+                <ReCAPTCHA
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                  onChange={(token: string | null) => setCaptchaToken(token)}
+                  theme="light"
+                />
+              </div>
 
               <div>
                 <button

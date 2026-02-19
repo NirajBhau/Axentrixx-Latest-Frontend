@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
 import CallbackModal from "@/components/CallbackModal";
 import CallbackButton from "@/components/CallbackButton";
 import Footer from "@/components/Footer";
@@ -95,6 +96,7 @@ export default function RootLayout({
           </div>
         </Providers>
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID!} />
     </html>
   );
 }
