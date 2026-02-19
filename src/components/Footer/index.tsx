@@ -81,7 +81,7 @@ const Footer = () => {
                 </Link> */}
                 <Link
                   aria-label="social link"
-                  href="https://www.linkedin.com/"
+                  href="https://www.linkedin.com/company/axentrixx/"
                   target="_blank"
                   className="px-3 text-gray-7 hover:text-white"
                 >

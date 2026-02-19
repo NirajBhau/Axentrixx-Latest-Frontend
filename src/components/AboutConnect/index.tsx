@@ -36,7 +36,7 @@ const AboutConnect = () => {
                 {/* Social Icons matching reference (Facebook, Twitter, Youtube, Linkedin style) */}
                 {/* LinkedIn */}
                 <Link
-                  href="https://www.linkedin.com/"
+                  href="https://www.linkedin.com/company/axentrixx/"
                   target="_blank"
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E7E7E7] text-body-color hover:border-[#0077B5] hover:bg-[#0077B5] hover:text-white transition"
                 >
