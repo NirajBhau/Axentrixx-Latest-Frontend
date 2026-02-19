@@ -435,9 +435,18 @@ body {
 
 /* Custom Heartbeat Animation */
 @keyframes heartbeat {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .animate-heartbeat {
@@ -459,6 +468,7 @@ body {
     opacity: 0;
     transform: translateY(10px) scale(0.99);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);

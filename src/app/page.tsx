@@ -1,19 +1,20 @@
-import About from "@/components/About";
-import AboutConnect from "@/components/AboutConnect";
-import Services from "@/components/Services";
-import HomeBlogSection from "@/components/Blog/HomeBlogSection";
-import Works from "@/components/Works";
-import CallToAction from "@/components/CallToAction";
-import Clients from "@/components/Clients";
+import dynamic from "next/dynamic";
 import ScrollUp from "@/components/Common/ScrollUp";
-import Contact from "@/components/Contact";
-
 import Hero from "@/components/Hero";
-
-import Team from "@/components/Team";
-import Testimonials from "@/components/Testimonials";
 import { getAllPosts } from "@/utils/markdown";
 import { Metadata } from "next";
+
+// Lazy load below-fold components — only loaded when they come into view
+const AboutConnect = dynamic(() => import("@/components/AboutConnect"), { ssr: true });
+const Services = dynamic(() => import("@/components/Services"), { ssr: true });
+const About = dynamic(() => import("@/components/About"), { ssr: true });
+const Works = dynamic(() => import("@/components/Works"), { ssr: true });
+const Clients = dynamic(() => import("@/components/Clients"), { ssr: true });
+const CallToAction = dynamic(() => import("@/components/CallToAction"), { ssr: true });
+const Testimonials = dynamic(() => import("@/components/Testimonials"), { ssr: true });
+const Team = dynamic(() => import("@/components/Team"), { ssr: true });
+const HomeBlogSection = dynamic(() => import("@/components/Blog/HomeBlogSection"), { ssr: true });
+const Contact = dynamic(() => import("@/components/Contact"), { ssr: true });
 
 export const metadata: Metadata = {
   title: "Axentrixx - Websites & AI Solutions Built for Business Growth",
@@ -34,14 +35,11 @@ export default function Home() {
       <Hero />
       <AboutConnect />
       <Services />
-
       <About />
       <Works />
       <Clients />
       <CallToAction />
-
       <Testimonials />
-
       <Team />
       <HomeBlogSection posts={posts} />
       <Contact />
