@@ -56,7 +56,10 @@ const SingleBlog = ({ blog }: { blog: Blog }) => {
               Date
             </h4>
             <p className="text-xs text-body-color">
-              {format(new Date(date), "dd MMM, yyyy")}
+              {(() => {
+                const d = new Date(date);
+                return isNaN(d.getTime()) ? "No Date" : format(d, "dd MMM, yyyy");
+              })()}
             </p>
           </div>
         </div>

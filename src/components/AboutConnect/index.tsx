@@ -72,7 +72,7 @@ const AboutConnect = () => {
 
                 {/* Email */}
                 <Link
-                  href="mailto:contact@axentrixx.com"
+                  href="mailto:sales@axentrixx.com"
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E7E7E7] text-body-color hover:border-primary hover:bg-primary hover:text-white transition"
                 >
                   <svg

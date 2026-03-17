@@ -11,7 +11,6 @@ const testimonialData: Testimonial[] = [
     designation: "CTO, FinTech Solutions",
     content:
       "Axentrixx transformed our legacy system into a modern, scalable platform. Their attention to detail and technical expertise is unmatched.",
-    image: "/images/testimonials/author-01.png",
     star: 5,
   },
   {
@@ -47,7 +46,6 @@ const testimonialData: Testimonial[] = [
     designation: "Founder @ Waa Tech",
     content:
       "Our members are so impressed. It's intuitive. It's clean. It's distraction free. If you're building a community.",
-    image: "/images/testimonials/author-01.png",
     star: 5,
   },
 ];

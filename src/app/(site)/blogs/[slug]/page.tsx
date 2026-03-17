@@ -15,47 +15,65 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
 
-  const posts = getAllPosts(["title", "date", "excerpt", "coverImage", "slug"]);
-  const post = getPostBySlug(slug, ["title", "author", "content", "metadata"]);
+  const posts = getAllPosts(["title", "date", "excerpt", "coverImage", "slug", "author", "authorImage", "designation"]);
+  const post = getPostBySlug(slug, ["title", "author", "content", "excerpt", "coverImage", "date"]);
 
-  const siteName = process.env.SITE_NAME || "Your Site Name";
-  const authorName = process.env.AUTHOR_NAME || "Your Author Name";
+  const siteName = process.env.SITE_NAME || "Axentrixx";
+  const authorName = process.env.AUTHOR_NAME || "Axentrixx Team";
 
   if (post) {
-    const metadata = {
-      title: `${post.title || "Single Post Page"} | ${siteName}`,
-      author: authorName,
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://axentrixx.com";
+    const title = `${post.title} | ${siteName}`;
+    const description = post.excerpt || "Expert insights on modern technology and digital strategy.";
+
+    return {
+      title,
+      description,
+      alternates: {
+        canonical: `${siteUrl}/blogs/${slug}`,
+      },
+      openGraph: {
+        title,
+        description,
+        url: `${siteUrl}/blogs/${slug}`,
+        siteName: siteName,
+        images: [
+          {
+            url: post.coverImage || "/favicon.ico",
+            width: 1200,
+            height: 630,
+            alt: post.title,
+          },
+        ],
+        type: "article",
+        publishedTime: post.date,
+        authors: [post.author || authorName],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: [post.coverImage || "/favicon.ico"],
+      },
       robots: {
         index: true,
         follow: true,
-        nocache: true,
         googleBot: {
           index: true,
-          follow: false,
+          follow: true,
           "max-video-preview": -1,
           "max-image-preview": "large",
           "max-snippet": -1,
         },
       },
     };
-
-    return metadata;
   } else {
     return {
-      title: "Not Found",
-      description: "No blog article has been found",
-      author: authorName,
+      title: "Blog Post Not Found | Axentrixx",
+      description: "The requested blog post could not be found.",
       robots: {
         index: false,
         follow: false,
-        nocache: false,
-        googleBot: {
-          index: false,
-          follow: false,
-          "max-video-preview": -1,
-          "max-image-preview": "large",
-          "max-snippet": -1,
-        },
       },
     };
   }
@@ -63,7 +81,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function Post({ params }: Props) {
   const { slug } = await params;
-  const posts = getAllPosts(["title", "date", "excerpt", "coverImage", "slug"]);
+  const posts = getAllPosts(["title", "date", "excerpt", "coverImage", "slug", "author", "authorImage", "designation"]);
   const post = getPostBySlug(slug, [
     "title",
     "author",
@@ -71,12 +89,38 @@ export default async function Post({ params }: Props) {
     "content",
     "coverImage",
     "date",
+    "excerpt",
   ]);
 
   const content = await markdownToHtml(post.content || "");
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "image": post.coverImage,
+    "datePublished": post.date,
+    "author": {
+      "@type": "Person",
+      "name": post.author,
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Axentrixx",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${process.env.NEXT_PUBLIC_SITE_URL || "https://axentrixx.com"}/logo.png`,
+      },
+    },
+    "description": post.excerpt,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Breadcrumb pageName="Blog Details" />
 
       <section className="pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px]">
@@ -98,13 +142,17 @@ export default async function Post({ params }: Props) {
                   <div className="flex flex-wrap items-center p-4 pb-4 sm:p-8">
                     <div className="mb-4 mr-5 flex items-center md:mr-10">
                       <div className="mr-4 h-10 w-10 overflow-hidden rounded-full">
-                        <Image
-                          src={post.authorImage}
-                          alt="image"
-                          className="w-full"
-                          width={40}
-                          height={40}
-                        />
+                        {post.authorImage ? (
+                          <Image
+                            src={post.authorImage}
+                            alt={post.author}
+                            className="w-full h-full object-cover"
+                            width={40}
+                            height={40}
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gray-300"></div>
+                        )}
                       </div>
                       <p className="text-base font-medium text-white">
                         By{" "}

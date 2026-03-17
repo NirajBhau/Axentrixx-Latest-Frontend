@@ -33,9 +33,18 @@ const SingleTestimonial = ({ testimonial }: { testimonial: Testimonial }) => {
         </p>
 
         <div className="flex items-center gap-4">
-          {/* <div className="h-[50px] w-[50px] overflow-hidden rounded-full">
-            <Image src={image} alt={name} width={50} height={50} />
-          </div> */}
+          <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-full border border-gray-100 bg-gray-50 text-body-color dark:border-dark-3 dark:bg-dark-3 dark:text-dark-6">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="fill-current"
+            >
+              <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM12 5a3.5 3.5 0 110 7 3.5 3.5 0 010-7zm0 14.2a7.2 7.2 0 01-6-3.19c.03-1.99 4-3.09 6-3.09s5.97 1.1 6 3.09a7.2 7.2 0 01-6 3.19z" />
+            </svg>
+          </div>
 
           <div>
             <h3 className="text-sm font-semibold text-dark dark:text-white">

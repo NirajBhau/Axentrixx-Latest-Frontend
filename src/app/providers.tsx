@@ -5,6 +5,8 @@ import { PropsWithChildren } from "react";
 import { Toaster } from "react-hot-toast";
 import { ModalProvider } from "@/context/ModalContext";
 import GetQuoteModal from "@/components/GetQuote/GetQuoteModal";
+import BookingModal from "@/components/BookingModal";
+import CallbackModal from "@/components/CallbackModal";
 
 export default function Providers({ children }: PropsWithChildren) {
   return (
@@ -17,6 +19,8 @@ export default function Providers({ children }: PropsWithChildren) {
         <Toaster />
         {children}
         <GetQuoteModal />
+        <BookingModal />
+        <CallbackModal />
       </ModalProvider>
     </ThemeProvider>
   );

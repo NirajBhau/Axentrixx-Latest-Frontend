@@ -4,7 +4,7 @@ import { servicesData } from "@/app/services/servicesData";
 
 const ServiceSidebar = ({ currentSlug }: { currentSlug: string }) => {
   return (
-    <div className="w-full">
+    <div className="w-full h-full">
       {/* Services List */}
       <div className="mb-10 rounded-sm border border-stroke bg-white p-4 shadow-three dark:border-dark-3 dark:bg-dark-2 dark:shadow-two sm:p-6 lg:p-8">
         <h3 className="mb-6 text-xl font-bold text-black dark:text-white">
@@ -16,8 +16,8 @@ const ServiceSidebar = ({ currentSlug }: { currentSlug: string }) => {
               <Link
                 href={`/services/${service.slug}`}
                 className={`group flex items-center justify-between rounded-sm px-4 py-3 text-base font-medium transition-all hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10 ${currentSlug === service.slug
-                    ? "bg-primary/5 text-primary dark:bg-primary/10"
-                    : "text-body-color dark:text-body-color-dark"
+                  ? "bg-primary/5 text-primary dark:bg-primary/10"
+                  : "text-body-color dark:text-body-color-dark"
                   }`}
               >
                 {service.title}
@@ -41,12 +41,12 @@ const ServiceSidebar = ({ currentSlug }: { currentSlug: string }) => {
       </div>
 
       {/* Let's Talk CTA */}
-      <div className="rounded-sm bg-primary p-6 text-center shadow-three dark:bg-primary dark:shadow-two sm:p-8 lg:p-10">
+      <div className="sticky top-32 z-40 rounded-sm bg-primary p-6 text-center shadow-three dark:bg-primary dark:shadow-two sm:p-8 lg:p-10">
         <h3 className="mb-2 text-2xl font-bold text-white">Let's talk</h3>
         <p className="mb-6 text-base font-medium text-white/90">
-          (+550) 647 878 093
+          (+91) 9998249244
           <br />
-          support@company.com
+          sales@axentrixx.com
         </p>
         <Link
           href="/contact"

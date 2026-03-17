@@ -1,14 +1,23 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
+import GetQuoteModal from "@/components/GetQuote/GetQuoteModal";
 import CallbackModal from "@/components/CallbackModal";
+import BookingModal from "@/components/BookingModal";
 import CallbackButton from "@/components/CallbackButton";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ScrollToTop from "@/components/ScrollToTop";
-import "../styles/index.css";
+import { ThemeProvider } from "next-themes";
+import { ModalProvider } from "@/context/ModalContext";
+import { Inter } from "next/font/google";
+import "@/styles/index.css";
+import { Toaster } from "react-hot-toast";
 import "../styles/prism-vsc-dark-plus.css";
 import Providers from "./providers";
 import { Metadata } from "next";
 import JsonLd from "@/components/SEO/JsonLd";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://axentrixx.com"),
@@ -81,22 +90,48 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning className="!scroll-smooth" lang="en">
-      <body>
+      <body className={`bg-[#FCFCFC] dark:bg-black ${inter.className}`}>
         <JsonLd />
         <Providers>
           <div className="isolate">
             <Header />
-
             {children}
-
             <Footer />
             <ScrollToTop />
             <CallbackButton />
-            <CallbackModal />
           </div>
         </Providers>
       </body>
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID!} />
+      <Script
+        id="cal-init"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+  (function (C, A, L) {
+    let p = function (a, ar) { a.q.push(ar); };
+    let d = C.document;
+    C.Cal = C.Cal || function () {
+      let cal = C.Cal;
+      let ar = arguments;
+      if (!cal.q) { cal.q = []; }
+      p(cal, ar);
+    };
+    if (C.Cal.ns) return;
+    C.Cal.ns = {};
+    C.Cal.p = p;
+    C.Cal.ar = [];
+    L = d.createElement(A);
+    L.async = 1;
+    L.src = "https://app.cal.com/embed/embed.js";
+    let s = d.getElementsByTagName(A)[0];
+    s.parentNode.insertBefore(L, s);
+  })(window, "script");
+Cal("init", { origin: "https://cal.com" });
+Cal("ui", { "styles": { "branding": { "brandColor": "#F7941D", "hideBranding": true } }, "hideEventTypeDetails": true, "layout": "month_view" });
+`,
+        }}
+      />
     </html>
   );
 }

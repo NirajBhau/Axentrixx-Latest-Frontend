@@ -3,9 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useModal } from "@/context/ModalContext";
 import DotPattern from "./DotPattern";
+import { useState } from "react"; // Added useState import
 
 const Hero = () => {
-  const { openModal } = useModal();
+  const { openBookingModal } = useModal(); // Changed openModal to openBookingModal
+  const [isOpen, setIsOpen] = useState(false); // Added useState declaration
 
   return (
     <>
@@ -21,10 +23,10 @@ const Hero = () => {
                 data-wow-delay=".2s"
               >
                 <h1 className="mb-6 text-3xl font-bold leading-snug text-dark sm:text-4xl sm:leading-snug lg:text-5xl lg:leading-[1.2]">
-                  Websites & AI Solutions Built for Business Growth
+                  Conversion-Focused Websites for Startups & Small Businesses
                 </h1>
                 <p className="mb-9 max-w-[600px] text-base font-medium text-body-color sm:text-lg sm:leading-[1.44]">
-                  Axentrixx Technologies delivers scalable websites and AI-powered automation solutions that transform how businesses operate, engage customers, and grow in the digital era.
+                  We design and develop fast, websites that help businesses generate more leads and sales.
                 </p>
 
                 <div className="mb-8 flex flex-wrap items-center gap-4 text-sm font-medium text-body-color sm:text-base">
@@ -69,10 +71,10 @@ const Hero = () => {
                     Built for Growth
                   </div>
                 </div>
-                <ul className="mb-10 flex flex-wrap items-center gap-5">
-                  <li>
+                <div className="mb-10">
+                  <div className="flex flex-wrap items-center gap-5">
                     <button
-                      onClick={openModal}
+                      onClick={openBookingModal}
                       className="inline-flex items-center justify-center rounded-md bg-primary px-7 py-[14px] text-center text-base font-medium text-white shadow-1 transition duration-300 ease-in-out hover:bg-primary/90 active:scale-95 animate-heartbeat gap-2"
                     >
                       Get Started with Free Consultation
@@ -89,8 +91,6 @@ const Hero = () => {
                         />
                       </svg>
                     </button>
-                  </li>
-                  <li>
                     <Link
                       href="/brochure.pdf"
                       target="_blank"
@@ -108,8 +108,11 @@ const Hero = () => {
                       </svg>
                       Download Brochure
                     </Link>
-                  </li>
-                </ul>
+                  </div>
+                  <p className="mt-4 text-base font-bold text-blue-600 dark:text-blue-400">
+                    Free 30-minute strategy call • No obligation
+                  </p>
+                </div>
 
                 <div className="pt-4">
                   <h6 className="mb-4 text-sm font-semibold text-body-color">Trusted by Industry Leaders</h6>

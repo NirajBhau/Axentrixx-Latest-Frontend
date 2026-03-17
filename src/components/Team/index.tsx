@@ -8,7 +8,7 @@ const teamData: TeamType[] = [
     name: "Niraj Patil",
     designation: "Co-Founder & Full-Stack Developer",
     bio: "Building scalable and high-performance digital solutions.",
-    image: "/images/team/team-01.png",
+    image: "/images/team/patil.png",
     // facebookLink: "/#",
     // twitterLink: "/#",
     // instagramLink: "/#",
@@ -19,7 +19,7 @@ const teamData: TeamType[] = [
     name: "Vandan Patel",
     designation: "Co-Founder & Product Strategist",
     bio: "Turning ideas into impactful digital products.",
-    image: "/images/team/team-02.png",
+    image: "/images/team/vandan.jpeg",
     // facebookLink: "/#",
     // twitterLink: "/#",
     // instagramLink: "/#",
@@ -51,22 +51,19 @@ const Team = () => {
   return (
     <section
       id="team"
-      className="overflow-hidden bg-gray-1 pb-12 pt-20 dark:bg-dark-2 lg:pb-[90px] lg:pt-[120px]"
+      className="overflow-hidden bg-white pb-12 pt-20 dark:bg-dark-2 lg:pb-[90px] lg:pt-[120px]"
     >
       <div className="container">
-        <div className="mb-[60px]">
-          <SectionTitle
-            subtitle="Our Team"
-            title="Meet Our Experts"
-            paragraph="Our team of dedicated professionals is committed to delivering excellence in every project."
-            width="640px"
-            center
-          />
+        <div className="mb-[60px] max-w-[620px]">
+          <h2 className="mb-4 text-3xl font-bold text-dark dark:text-white sm:text-4xl md:text-[45px]">
+            Meet the Team
+          </h2>
+          <div className="h-1.5 w-32 rounded-full bg-[#8BC34A]"></div>
         </div>
 
-        <div className="-mx-4 flex flex-wrap justify-center">
+        <div className="-mx-4 flex flex-wrap justify-center gap-y-10">
           {teamData.map((team, i) => (
-            <SingleTeam key={i} team={team} />
+            <SingleTeam key={i} team={team} index={i} />
           ))}
         </div>
       </div>

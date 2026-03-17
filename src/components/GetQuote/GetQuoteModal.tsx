@@ -1,12 +1,13 @@
-
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useModal } from "@/context/ModalContext";
-import SuccessMessage from "@/components/Common/SuccessMessage";
+import toast from "react-hot-toast";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const GetQuoteModal = () => {
   const { isOpen, closeModal } = useModal();
+  const modalRef = useRef<HTMLDivElement>(null);
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -20,329 +21,229 @@ const GetQuoteModal = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
-  // Prevent scrolling when modal is open and reset state
+  // Reset state when modal closes
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-      setIsSuccess(false);
-      setIsSubmitting(false);
-      setErrorMessage("");
-      setCaptchaToken(null);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        countryCode: "+91",
-        phone: "",
-        companyName: "",
-        projectType: "",
-        projectBudget: "",
-        projectDetails: "",
-      });
+    if (!isOpen) {
+      setTimeout(() => {
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          countryCode: "+91",
+          phone: "",
+          companyName: "",
+          projectType: "",
+          projectBudget: "",
+          projectDetails: "",
+        });
+        setCaptchaToken(null);
+      }, 300);
     }
   }, [isOpen]);
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setErrorMessage("");
-
     if (!captchaToken) {
-      setErrorMessage("Please complete the CAPTCHA verification.");
-      setIsSubmitting(false);
+      toast.error("Please complete the CAPTCHA verification.");
       return;
     }
+
+    setIsSubmitting(true);
 
     try {
       const response = await fetch("/api/consultation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phone: formData.phone || undefined,
-          countryCode: formData.countryCode || undefined,
-          companyName: formData.companyName || undefined,
-          projectType: formData.projectType || undefined,
-          projectBudget: formData.projectBudget || undefined,
-          projectDetails: formData.projectDetails,
-          captchaToken,
-        }),
+        body: JSON.stringify({ ...formData, captchaToken }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        setErrorMessage(data.error || "Something went wrong. Please try again.");
+        toast.error(data.error || "Something went wrong. Please try again.");
         return;
       }
 
-      setIsSuccess(true);
+      toast.success("Consultation request submitted! We'll get back to you soon.");
+      closeModal();
     } catch (error) {
-      setErrorMessage("Failed to submit. Please check your connection and try again.");
+      toast.error("Failed to submit. Please check your connection.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Common country codes
-  const countryCodes = [
-    { code: "+91", country: "IN", flag: "🇮🇳" },
-    { code: "+1", country: "US", flag: "🇺🇸" },
-    { code: "+44", country: "UK", flag: "🇬🇧" },
-    { code: "+61", country: "AU", flag: "🇦🇺" },
-    { code: "+1", country: "CA", flag: "🇨🇦" },
-    { code: "+971", country: "AE", flag: "🇦🇪" },
-  ];
-
   if (!isOpen) return null;
 
+  const countryCodes = [
+    { code: "+91", flag: "🇮🇳" },
+    { code: "+1", flag: "🇺🇸" },
+    { code: "+44", flag: "🇬🇧" },
+    { code: "+61", flag: "🇦🇺" },
+    { code: "+971", flag: "🇦🇪" },
+  ];
+
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-black/50 backdrop-blur-sm p-2 sm:p-4">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-black/60 backdrop-blur-md p-4 transition-all duration-300">
       <div
-        className="relative w-full max-w-[750px] max-h-[95vh] overflow-y-auto rounded-xl bg-white p-4 shadow-xl dark:bg-dark-2 sm:p-6 md:p-8"
+        ref={modalRef}
+        className="relative w-full max-w-[700px] h-auto max-h-[calc(100vh-48px)] overflow-hidden bg-white/80 dark:bg-dark-2/80 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl transition-all duration-500 flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          onClick={closeModal}
-          className="absolute right-4 top-4 text-body-color hover:text-primary dark:text-gray-300"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
+        {/* Header */}
+        <div className="sticky top-0 z-20 flex items-center justify-between border-b border-white/20 px-6 py-4">
+          <h3 className="text-xl font-bold text-dark dark:text-white sm:text-2xl">
+            Book a Consultation
+          </h3>
+          <button
+            onClick={closeModal}
+            className="text-body-color hover:text-primary transition-colors"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
 
-        {!isSuccess ? (
-          <>
-            <div className="mb-6 text-center">
-              <h3 className="mb-2 text-2xl font-bold text-black dark:text-white sm:text-3xl">
-                Book a Consultation
-              </h3>
-              <p className="text-sm font-medium text-body-color">
-                We'll get back to you within 24 hours. Fields marked with <span className="text-primary">*</span> are mandatory.
-              </p>
+        {/* Content */}
+        <div className="p-6 overflow-y-auto overflow-x-hidden">
+          <form onSubmit={handleSubmit} className="space-y-4 w-full">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-1 block text-sm font-semibold text-dark dark:text-white">First Name *</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  placeholder="First name"
+                  required
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-5 py-2.5 text-base text-body-color outline-none focus:border-primary dark:border-dark-3 dark:bg-dark-3/50 dark:text-white"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-semibold text-dark dark:text-white">Last Name *</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  placeholder="Last name"
+                  required
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-5 py-2.5 text-base text-body-color outline-none focus:border-primary dark:border-dark-3 dark:bg-dark-3/50 dark:text-white"
+                />
+              </div>
             </div>
 
-            <form onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
-                {/* First Name */}
-                <div>
-                  <label htmlFor="firstName" className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    First Name <span className="text-primary">*</span>
-                  </label>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-1 block text-sm font-semibold text-dark dark:text-white">Email Address *</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="name@example.com"
+                  required
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-5 py-2.5 text-base text-body-color outline-none focus:border-primary dark:border-dark-3 dark:bg-dark-3/50 dark:text-white"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-semibold text-dark dark:text-white">Phone Number</label>
+                <div className="flex gap-2 min-w-0">
+                  <select
+                    name="countryCode"
+                    value={formData.countryCode}
+                    onChange={handleChange}
+                    className="w-[85px] flex-shrink-0 rounded-xl border border-gray-200 bg-gray-50/50 px-2 py-2.5 text-sm text-body-color outline-none dark:border-dark-3 dark:bg-dark-3/50 dark:text-white"
+                  >
+                    {countryCodes.map((c) => (
+                      <option key={c.code} value={c.code}>{c.flag} {c.code}</option>
+                    ))}
+                  </select>
                   <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    placeholder="John"
-                    className="w-full rounded-full border border-primary/30 bg-transparent px-5 py-3 text-base text-body-color outline-none focus:border-primary focus:ring-1 focus:ring-primary dark:border-primary/20 dark:text-white dark:focus:border-primary transition-all placeholder:text-gray-300"
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
                     onChange={handleChange}
-                    required
+                    placeholder="Phone number"
+                    className="min-w-0 flex-1 rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-2.5 text-base text-body-color outline-none focus:border-primary dark:border-dark-3 dark:bg-dark-3/50 dark:text-white/90"
                   />
-                </div>
-
-                {/* Last Name */}
-                <div>
-                  <label htmlFor="lastName" className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Last Name <span className="text-primary">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    placeholder="Doe"
-                    className="w-full rounded-full border border-primary/30 bg-transparent px-5 py-3 text-base text-body-color outline-none focus:border-primary focus:ring-1 focus:ring-primary dark:border-primary/20 dark:text-white dark:focus:border-primary transition-all placeholder:text-gray-300"
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                {/* Email */}
-                <div>
-                  <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Email Address <span className="text-primary">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    placeholder="john@example.com"
-                    className="w-full rounded-full border border-primary/30 bg-transparent px-5 py-3 text-base text-body-color outline-none focus:border-primary focus:ring-1 focus:ring-primary dark:border-primary/20 dark:text-white dark:focus:border-primary transition-all placeholder:text-gray-300"
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                {/* Phone */}
-                <div>
-                  <label htmlFor="phone" className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Phone Number
-                  </label>
-                  <div className="relative flex items-center">
-                    <div className="absolute left-1 top-1/2 -translate-y-1/2 h-[80%] border-r border-gray-200 dark:border-dark-3">
-                      <select
-                        name="countryCode"
-                        value={formData.countryCode}
-                        onChange={handleChange}
-                        className="h-full cursor-pointer appearance-none bg-transparent pl-3 pr-6 text-base text-body-color outline-none dark:text-white"
-                      >
-                        {countryCodes.map((country) => (
-                          <option key={`${country.country}-${country.code}`} value={country.code}>
-                            {country.flag} {country.code}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      placeholder="00 0000 0000"
-                      className="w-full rounded-full border border-primary/30 bg-transparent py-3 pl-[110px] pr-5 text-base text-body-color outline-none focus:border-primary focus:ring-1 focus:ring-primary dark:border-primary/20 dark:text-white dark:focus:border-primary transition-all placeholder:text-gray-300"
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
-
-                {/* Company Name */}
-                <div>
-                  <label htmlFor="companyName" className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Company Name
-                  </label>
-                  <input
-                    type="text"
-                    name="companyName"
-                    value={formData.companyName}
-                    placeholder="Company"
-                    className="w-full rounded-full border border-primary/30 bg-transparent px-5 py-3 text-base text-body-color outline-none focus:border-primary focus:ring-1 focus:ring-primary dark:border-primary/20 dark:text-white dark:focus:border-primary transition-all placeholder:text-gray-300"
-                    onChange={handleChange}
-                  />
-                </div>
-
-                {/* Project Type */}
-                <div>
-                  <label htmlFor="projectType" className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Project Type
-                  </label>
-                  <div className="relative">
-                    <select
-                      name="projectType"
-                      value={formData.projectType}
-                      className="w-full appearance-none rounded-full border border-primary/30 bg-transparent px-5 py-3 text-base text-body-color outline-none focus:border-primary focus:ring-1 focus:ring-primary dark:border-primary/20 dark:text-white dark:focus:border-primary transition-all cursor-pointer"
-                      onChange={handleChange}
-                    >
-                      <option value="" disabled>Select Type</option>
-                      <option value="web-development">Web Development</option>
-                      <option value="app-development">Mobile App</option>
-                      <option value="ui-ux-design">UI/UX Design</option>
-                      <option value="custom-software">Custom Software</option>
-                      <option value="ecommerce">E-commerce</option>
-                      <option value="digital-marketing">Digital Marketing</option>
-                      <option value="other">Other</option>
-                    </select>
-                    <div className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-primary">
-                      <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1.41 0.589996L6 5.17L10.59 0.589996L12 2L6 8L0 2L1.41 0.589996Z" fill="currentColor" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Project Budget */}
-                <div className="md:col-span-2">
-                  <label htmlFor="projectBudget" className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Project Budget
-                  </label>
-                  <div className="relative">
-                    <select
-                      name="projectBudget"
-                      value={formData.projectBudget}
-                      className="w-full appearance-none rounded-full border border-primary/30 bg-transparent px-5 py-3 text-base text-body-color outline-none focus:border-primary focus:ring-1 focus:ring-primary dark:border-primary/20 dark:text-white dark:focus:border-primary transition-all cursor-pointer"
-                      onChange={handleChange}
-                    >
-                      <option value="" disabled>Select budget range</option>
-                      <option value="<5k">Less than $5,000</option>
-                      <option value="5k-10k">$5,000 - $10,000</option>
-                      <option value="10k-25k">$10,000 - $25,000</option>
-                      <option value="25k-50k">$25,000 - $50,000</option>
-                      <option value="50k+">More than $50,000</option>
-                    </select>
-                    <div className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-primary">
-                      <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1.41 0.589996L6 5.17L10.59 0.589996L12 2L6 8L0 2L1.41 0.589996Z" fill="currentColor" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Project Details */}
-                <div className="md:col-span-2">
-                  <label htmlFor="projectDetails" className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Project Details <span className="text-primary">*</span>
-                  </label>
-                  <textarea
-                    name="projectDetails"
-                    value={formData.projectDetails}
-                    rows={2}
-                    placeholder="Briefly describe your project..."
-                    className="w-full resize-none rounded-2xl border border-primary/30 bg-transparent px-5 py-3 text-base text-body-color outline-none focus:border-primary focus:ring-1 focus:ring-primary dark:border-primary/20 dark:text-white dark:focus:border-primary transition-all placeholder:text-gray-300"
-                    onChange={handleChange}
-                    required
-                  ></textarea>
                 </div>
               </div>
+            </div>
 
-              {errorMessage && (
-                <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-600 dark:bg-red-900/20 dark:text-red-400">
-                  {errorMessage}
-                </div>
-              )}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-1 block text-sm font-semibold text-dark dark:text-white">Company Name</label>
+                <input
+                  type="text"
+                  name="companyName"
+                  value={formData.companyName}
+                  onChange={handleChange}
+                  placeholder="Your company"
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-5 py-2.5 text-base text-body-color outline-none focus:border-primary dark:border-dark-3 dark:bg-dark-3/50 dark:text-white"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-semibold text-dark dark:text-white">Project Type</label>
+                <select
+                  name="projectType"
+                  value={formData.projectType}
+                  onChange={handleChange}
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-5 py-2.5 text-base text-body-color outline-none focus:border-primary dark:border-dark-3 dark:bg-dark-3/50 dark:text-white"
+                >
+                  <option value="">Select type</option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="Mobile App">Mobile App</option>
+                  <option value="UI/UX Design">UI/UX Design</option>
+                  <option value="Consulting">Consulting</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
 
-              <div className="mb-6 flex justify-center">
+            <div>
+              <label className="mb-1 block text-sm font-semibold text-dark dark:text-white">Project Details *</label>
+              <textarea
+                name="projectDetails"
+                value={formData.projectDetails}
+                onChange={handleChange}
+                rows={3}
+                placeholder="Briefly describe your requirements"
+                required
+                className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-5 py-2.5 text-base text-body-color outline-none focus:border-primary dark:border-dark-3 dark:bg-dark-3/50 dark:text-white"
+              ></textarea>
+            </div>
+
+            <div className="flex flex-col items-center gap-4 pt-2">
+              <div className="max-w-full overflow-hidden">
                 <ReCAPTCHA
                   sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                  onChange={(token: string | null) => setCaptchaToken(token)}
+                  onChange={(token) => setCaptchaToken(token)}
                   theme="light"
+                  size="normal"
                 />
               </div>
 
-              <div>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full rounded-full bg-primary px-9 py-4 text-base font-bold text-white shadow-submit duration-300 hover:bg-primary/90 hover:shadow-submit-dark dark:shadow-submit-dark disabled:bg-primary/70 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? "Submitting..." : "Request Consultation"}
-                </button>
-              </div>
-              <p className="text-xs text-center text-body-color/70 mt-4">
-                By submitting, you agree to our <span className="text-primary cursor-pointer hover:underline">Privacy Policy</span>. We'll reply in 1 business day.
-              </p>
-            </form>
-          </>
-        ) : (
-          <SuccessMessage
-            onClose={closeModal}
-            description="We've received your consultation request, and we'll be in touch soon!"
-          />
-        )}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full rounded-xl bg-primary px-9 py-4 text-base font-bold text-white shadow-lg transition-all hover:bg-primary/90 disabled:bg-primary/70 disabled:cursor-not-allowed active:scale-95"
+              >
+                {isSubmitting ? "Submitting..." : "Send Request"}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-      {/* Click outside to close */}
       <div className="absolute inset-0 z-[-1]" onClick={closeModal}></div>
     </div>
   );

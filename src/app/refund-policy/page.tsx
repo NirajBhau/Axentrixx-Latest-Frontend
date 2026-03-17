@@ -32,7 +32,7 @@ const RefundPolicyPage = () => {
                   You may cancel a service or project by providing written notice. Cancellation fees may apply depending on the stage of the project and work already completed.
                 </p>
                 <p className="mb-8 text-base font-medium leading-relaxed text-body-color sm:text-lg sm:leading-relaxed lg:text-base xl:text-lg">
-                  Please contact us at support@axentrixx.com for any questions regarding refunds or cancellations.
+                  Please contact us at sales@axentrixx.com for any questions regarding refunds or cancellations.
                 </p>
               </div>
             </div>

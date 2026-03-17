@@ -70,115 +70,124 @@ const CallbackModal = () => {
   if (!isCallbackOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-dark/90 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-black/60 backdrop-blur-md p-4 transition-all duration-300">
       <div
         ref={modalRef}
-        className="relative w-full max-w-[500px] max-h-[95vh] overflow-y-auto rounded-lg bg-white px-6 py-8 shadow-lg dark:bg-dark-2 sm:px-12 sm:py-12"
+        className="relative w-full max-w-[500px] h-auto max-h-[calc(100vh-48px)] overflow-hidden bg-white/80 dark:bg-dark-2/80 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl transition-all duration-500 flex flex-col"
       >
         <button
           onClick={closeCallbackModal}
-          className="absolute right-4 top-4 text-body-color hover:text-dark dark:hover:text-white"
+          className="absolute right-6 top-6 z-30 text-body-color hover:text-primary transition-colors"
         >
           <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M11.89 10L17.65 4.24001C18.12 3.77001 18.12 3.00001 17.65 2.53001C17.18 2.06001 16.41 2.06001 15.94 2.53001L10.18 8.29001L4.42001 2.53001C3.95001 2.06001 3.18001 2.06001 2.71001 2.53001C2.24001 3.00001 2.24001 3.77001 2.71001 4.24001L8.47001 10L2.71001 15.76C2.24001 16.23 2.24001 17 2.71001 17.47C2.94001 17.7 3.25001 17.82 3.56001 17.82C3.87001 17.82 4.18001 17.7 4.42001 17.47L10.18 11.71L15.94 17.47C16.17 17.7 16.48 17.82 16.79 17.82C17.1 17.82 17.41 17.7 17.65 17.47C18.12 17 18.12 16.23 17.65 15.76L11.89 10Z"
-              fill="currentColor"
+              d="M18 6L6 18M6 6L18 18"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </button>
-        <div className="mb-6 text-center">
-          <h3 className="mb-2 text-2xl font-bold text-dark dark:text-white">
-            Request a Call Back
-          </h3>
-          <p className="text-base font-medium text-body-color">
-            Leave your details and we'll call you shortly.
-          </p>
-        </div>
-        {!isSuccess ? (
-          <form onSubmit={handleSubmit}>
-            <div className="mb-6">
-              <label
-                htmlFor="name"
-                className="mb-2 block text-sm font-medium text-dark dark:text-white"
-              >
-                Your Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Enter your name"
-                required
-                className="w-full rounded-md border border-transparent bg-[#F9FAFB] px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#2C303B] dark:text-white dark:shadow-two dark:focus:border-primary"
-              />
-            </div>
-            <div className="mb-6">
-              <label
-                htmlFor="phone"
-                className="mb-2 block text-sm font-medium text-dark dark:text-white"
-              >
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Enter your phone number"
-                required
-                className="w-full rounded-md border border-transparent bg-[#F9FAFB] px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#2C303B] dark:text-white dark:shadow-two dark:focus:border-primary"
-              />
-            </div>
-            {errorMessage && (
-              <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-600 dark:bg-red-900/20 dark:text-red-400">
-                {errorMessage}
-              </div>
-            )}
-            <button
-              disabled={isSubmitting}
-              className="flex w-full items-center justify-center rounded-md bg-primary px-9 py-4 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-primary/90 hover:shadow-1 active:scale-95 disabled:bg-primary/70 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? "Requesting..." : "Request Callback"}
-            </button>
-          </form>
-        ) : (
-          <div className="text-center py-6">
-            <div className="mb-4 flex justify-center text-primary">
-              <svg
-                width="60"
-                height="60"
-                viewBox="0 0 60 60"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle cx="30" cy="30" r="30" fill="currentColor" fillOpacity="0.1" />
-                <path
-                  d="M28.6667 40L18 29.3333L21.3333 26L28.6667 33.3333L46.6667 15.3333L50 18.6667L28.6667 40Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </div>
-            <h3 className="mb-2 text-2xl font-bold text-dark dark:text-white">
-              Request Received!
+        <div className="p-8 sm:p-12 overflow-y-auto overflow-x-hidden">
+          <div className="mb-8 text-center">
+            <h3 className="mb-2 text-2xl font-bold text-dark dark:text-white sm:text-3xl">
+              Request a Call Back
             </h3>
-            <p className="mb-6 text-base text-body-color">
-              We have received your request. Our team will call you shortly at {formData.phone}.
+            <p className="text-base font-medium text-body-color">
+              Leave your details and we'll call you shortly.
             </p>
-            <button
-              onClick={closeCallbackModal}
-              className="flex w-full items-center justify-center rounded-md bg-transparent border border-primary px-9 py-3 text-base font-medium text-primary transition duration-300 ease-in-out hover:bg-primary hover:text-white"
-            >
-              Close
-            </button>
           </div>
-        )}
+          {!isSuccess ? (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="mb-2 block text-sm font-semibold text-dark dark:text-white"
+                >
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Enter your name"
+                  required
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-6 py-3.5 text-base text-body-color outline-none focus:border-primary dark:border-dark-3 dark:bg-dark-3/50 dark:text-white/90"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="phone"
+                  className="mb-2 block text-sm font-semibold text-dark dark:text-white"
+                >
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="Enter your phone number"
+                  required
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-6 py-3.5 text-base text-body-color outline-none focus:border-primary dark:border-dark-3 dark:bg-dark-3/50 dark:text-white/90"
+                />
+              </div>
+              {errorMessage && (
+                <div className="rounded-xl bg-red-50 p-4 text-sm text-red-600 dark:bg-red-900/20 dark:text-red-400">
+                  {errorMessage}
+                </div>
+              )}
+              <button
+                disabled={isSubmitting}
+                className="flex w-full items-center justify-center rounded-xl bg-primary px-9 py-4 text-base font-bold text-white shadow-lg transition duration-300 ease-in-out hover:bg-primary/90 active:scale-95 disabled:bg-primary/70 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? "Requesting..." : "Request Callback"}
+              </button>
+            </form>
+          ) : (
+            <div className="text-center py-6 animate-fadeIn">
+              <div className="mb-6 flex justify-center text-primary">
+                <div className="rounded-full bg-primary/10 p-4">
+                  <svg
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6L9 17L4 12"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="mb-2 text-2xl font-bold text-dark dark:text-white">
+                Request Received!
+              </h3>
+              <p className="mb-8 text-base text-body-color">
+                We have received your request. Our team will call you shortly at <span className="font-bold text-dark dark:text-white">{formData.phone}</span>.
+              </p>
+              <button
+                onClick={closeCallbackModal}
+                className="flex w-full items-center justify-center rounded-xl border-2 border-primary bg-transparent px-9 py-3.5 text-base font-bold text-primary transition duration-300 ease-in-out hover:bg-primary hover:text-white"
+              >
+                Close
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

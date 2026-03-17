@@ -194,7 +194,7 @@ const TermsOfService = () => {
                   Vadodara, Gujarat – 390007, India
                   <br />
                   <br />
-                  help@axentrixx.com
+                  sales@axentrixx.com
                 </div>
               </div>
             </div>
