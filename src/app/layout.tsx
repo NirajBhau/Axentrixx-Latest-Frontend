@@ -52,7 +52,7 @@ export const metadata: Metadata = {
       "Axentrixx builds high-performance websites, AI-powered tools, and custom software to help businesses grow.",
     images: [
       {
-        url: "/images/logo/logo.png",
+        url: "/images/logo/axenlogo.png",
         width: 400,
         height: 400,
         alt: "Axentrixx Logo",
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     title: "Axentrixx - Websites & AI Solutions Built for Business Growth",
     description:
       "Axentrixx builds high-performance websites, AI-powered tools, and custom software to help businesses grow.",
-    images: ["/images/logo/logo.png"],
+    images: ["/images/logo/axenlogo.png"],
   },
   robots: {
     index: true,

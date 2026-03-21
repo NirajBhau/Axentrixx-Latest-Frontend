@@ -4,7 +4,7 @@ export default function JsonLd() {
     "@type": "Organization",
     name: "Axentrixx",
     url: "https://axentrixx.com",
-    logo: "https://axentrixx.com/images/logo/logo.png",
+    logo: "https://axentrixx.com/images/logo/axenlogo.png",
     description:
       "Axentrixx builds high-performance websites, AI-powered tools, and custom software to help businesses grow.",
     contactPoint: {
@@ -36,7 +36,7 @@ export default function JsonLd() {
     "@type": "ProfessionalService",
     name: "Axentrixx",
     url: "https://axentrixx.com",
-    image: "https://axentrixx.com/images/logo/logo.png",
+    image: "https://axentrixx.com/images/logo/axenlogo.png",
     telephone: "+91-9998249244",
     email: "sales@axentrixx.com",
     priceRange: "$$",

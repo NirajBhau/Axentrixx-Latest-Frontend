@@ -73,14 +73,14 @@ const Header = () => {
           <Link href="/" className="navbar-logo block group">
             <div className="flex items-center gap-2 sm:gap-3">
               <Image
-                src="/images/logo/logo.png"
+                src="/images/logo/axenlogo.png"
                 alt="Axentrixx Logo"
                 width={60}
                 height={60}
                 className="header-logo w-auto h-[40px] sm:h-[50px] dark:hidden"
               />
               <Image
-                src="/images/logo/logo.png"
+                src="/images/logo/axenlogo.png"
                 alt="Axentrixx Logo"
                 width={60}
                 height={60}

@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/error'],
+        disallow: ['/api/', '/error', '/*?q='],
       },
     ],
     sitemap: 'https://axentrixx.com/sitemap.xml',
