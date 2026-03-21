@@ -96,11 +96,14 @@ const Contact = () => {
                     <h3 className="mb-[18px] text-lg font-semibold text-dark dark:text-white">
                       How Can We Help?
                     </h3>
-                    {/* <p className="text-base text-body-color dark:text-dark-6">
-                      sales@axentrixx.com
-                    </p> */}
                     <p className="mt-1 text-base text-body-color dark:text-dark-6">
-                      sales@axentrixx.com
+                      <a href="mailto:sales@axentrixx.com" className="hover:text-primary transition">sales@axentrixx.com</a>
+                    </p>
+                    <p className="mt-2 text-base text-body-color dark:text-dark-6">
+                      <a href="tel:+919998249244" className="hover:text-primary transition">+91 9998249244</a>
+                    </p>
+                    <p className="mt-1 text-base text-body-color dark:text-dark-6">
+                      <a href="tel:+919173384391" className="hover:text-primary transition">+91 9173384391</a>
                     </p>
                   </div>
                 </div>

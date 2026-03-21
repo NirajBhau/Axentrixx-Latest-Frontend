@@ -10,6 +10,7 @@ const BookingModal = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
   });
   const hasProcessedBooking = useRef(false);
 
@@ -18,7 +19,7 @@ const BookingModal = () => {
     if (!isBookingOpen) {
       setTimeout(() => {
         setStep("info");
-        setFormData({ name: "", email: "" });
+        setFormData({ name: "", email: "", phone: "" });
         hasProcessedBooking.current = false;
       }, 300); // Wait for transition
     }
@@ -55,6 +56,7 @@ const BookingModal = () => {
           config: {
             name: formData.name,
             email: formData.email,
+            notes: `Phone: ${formData.phone}`,
           },
         });
 
@@ -128,16 +130,30 @@ const BookingModal = () => {
                   className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-5 py-3 text-base text-body-color outline-none focus:border-primary focus:ring-1 focus:ring-primary dark:border-dark-3 dark:bg-dark-3/50 dark:text-white transition-all"
                 />
               </div>
+              <div className="mb-6">
+                <label className="mb-2 block text-sm font-semibold text-dark dark:text-white">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="Enter your phone number"
+                  required
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-5 py-3 text-base text-body-color outline-none focus:border-primary focus:ring-1 focus:ring-primary dark:border-dark-3 dark:bg-dark-3/50 dark:text-white transition-all"
+                />
+              </div>
               <div className="mb-8">
                 <label className="mb-2 block text-sm font-semibold text-dark dark:text-white">
-                  Work Email
+                  Email
                 </label>
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="name@axentrixx.com"
+                  placeholder="name@gmail.com"
                   required
                   className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-5 py-3 text-base text-body-color outline-none focus:border-primary focus:ring-1 focus:ring-primary dark:border-dark-3 dark:bg-dark-3/50 dark:text-white transition-all"
                 />
