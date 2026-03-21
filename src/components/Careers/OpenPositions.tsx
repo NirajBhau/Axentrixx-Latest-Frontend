@@ -40,6 +40,15 @@ const jobsData = [
     description: "Coordinate projects, resources, and timelines to ensure successful delivery.",
     link: "#",
   },
+  {
+    id: 5,
+    title: "Data Analyst Internship",
+    department: "Data & Analytics",
+    type: "Internship",
+    location: "Remote",
+    description: "Learn and assist in interpreting data, analyzing results, and providing ongoing reports.",
+    link: "#",
+  },
 ];
 
 interface OpenPositionsProps {
