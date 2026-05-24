@@ -22,7 +22,6 @@ const ServiceCTA = () => {
       </button>
       <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm underline opacity-70">
         <Link href="/services/web-development">Web Development</Link>
-        <Link href="/services/ai-automation">AI Automation</Link>
         <Link href="/services/analytics-reporting">Analytics & Reporting</Link>
       </div>
     </div>

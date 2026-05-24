@@ -127,8 +127,49 @@ export const jobApplicationSchema = z.object({
   resumeSize: z.number().positive('Invalid file size'),
 });
 
+// Partner Form Validation
+export const partnerSchema = z.object({
+  name: z
+    .string()
+    .min(2, 'Name must be at least 2 characters')
+    .max(100, 'Name must be less than 100 characters')
+    .trim(),
+  email: z
+    .string()
+    .email('Please enter a valid email address')
+    .max(255, 'Email must be less than 255 characters')
+    .trim()
+    .toLowerCase(),
+  phone: z
+    .string()
+    .max(20, 'Phone number is too long')
+    .optional()
+    .or(z.literal('')),
+  companyName: z
+    .string()
+    .min(2, 'Company name must be at least 2 characters')
+    .max(100, 'Company name must be less than 100 characters')
+    .trim(),
+  websiteUrl: z
+    .string()
+    .max(255, 'Website URL is too long')
+    .optional()
+    .or(z.literal('')),
+  devNeed: z
+    .string()
+    .min(1, 'Please select your development needs')
+    .max(100)
+    .trim(),
+  message: z
+    .string()
+    .min(10, 'Requirements must be at least 10 characters')
+    .max(5000, 'Requirements must be less than 5000 characters')
+    .trim(),
+});
+
 // Types derived from schemas
 export type ContactInput = z.infer<typeof contactSchema>;
 export type NewsletterInput = z.infer<typeof newsletterSchema>;
 export type ConsultationInput = z.infer<typeof consultationSchema>;
 export type JobApplicationInput = z.infer<typeof jobApplicationSchema>;
+export type PartnerInput = z.infer<typeof partnerSchema>;

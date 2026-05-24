@@ -7,6 +7,7 @@ import { ModalProvider } from "@/context/ModalContext";
 import GetQuoteModal from "@/components/GetQuote/GetQuoteModal";
 import BookingModal from "@/components/BookingModal";
 import CallbackModal from "@/components/CallbackModal";
+import PartnerModal from "@/components/AgencyPartner/PartnerModal";
 
 export default function Providers({ children }: PropsWithChildren) {
   return (
@@ -21,6 +22,7 @@ export default function Providers({ children }: PropsWithChildren) {
         <GetQuoteModal />
         <BookingModal />
         <CallbackModal />
+        <PartnerModal />
       </ModalProvider>
     </ThemeProvider>
   );

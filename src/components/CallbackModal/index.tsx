@@ -187,10 +187,6 @@ const CallbackModal = () => {
                     <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary shrink-0">📞</span>
                     +91 9998249244
                   </a>
-                  <a href="tel:+919173384391" className="flex items-center gap-3 text-body-color hover:text-primary transition font-medium">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary shrink-0">📞</span>
-                    +91 9173384391
-                  </a>
                 </div>
               </div>
 

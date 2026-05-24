@@ -24,16 +24,17 @@ const menuData: Menu[] = [
         path: "/services/web-development",
         newTab: false,
       },
-      {
-        id: 32,
-        title: "AI Automation Services",
-        path: "/services/ai-automation",
-        newTab: false,
-      },
+
       {
         id: 33,
         title: "Analytics & Reporting",
         path: "/services/analytics-reporting",
+        newTab: false,
+      },
+      {
+        id: 34,
+        title: "Custom Software",
+        path: "/services/custom-software",
         newTab: false,
       },
     ],

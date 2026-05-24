@@ -100,3 +100,23 @@ CREATE TABLE "Callback" (
 );
 
 CREATE INDEX "Callback_createdAt_idx" ON "Callback"("createdAt");
+
+-- Agency Partner Requests Table
+CREATE TABLE "Partner" (
+    "id" TEXT NOT NULL PRIMARY KEY DEFAULT gen_random_uuid()::TEXT,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "phone" TEXT,
+    "companyName" TEXT NOT NULL,
+    "websiteUrl" TEXT,
+    "devNeed" TEXT NOT NULL,
+    "message" TEXT NOT NULL,
+    "status" "ContactStatus" NOT NULL DEFAULT 'NEW',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX "Partner_email_idx" ON "Partner"("email");
+CREATE INDEX "Partner_createdAt_idx" ON "Partner"("createdAt");
+
+CREATE TRIGGER update_partner_updated_at BEFORE UPDATE ON "Partner" FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();

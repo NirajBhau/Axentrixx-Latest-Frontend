@@ -13,6 +13,9 @@ interface ModalContextType {
   isBookingOpen: boolean;
   openBookingModal: () => void;
   closeBookingModal: () => void;
+  isPartnerOpen: boolean;
+  openPartnerModal: () => void;
+  closePartnerModal: () => void;
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -21,6 +24,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCallbackOpen, setIsCallbackOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isPartnerOpen, setIsPartnerOpen] = useState(false);
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
@@ -30,6 +34,9 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 
   const openBookingModal = () => setIsBookingOpen(true);
   const closeBookingModal = () => setIsBookingOpen(false);
+
+  const openPartnerModal = () => setIsPartnerOpen(true);
+  const closePartnerModal = () => setIsPartnerOpen(false);
 
   return (
     <ModalContext.Provider
@@ -43,6 +50,9 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         isBookingOpen,
         openBookingModal,
         closeBookingModal,
+        isPartnerOpen,
+        openPartnerModal,
+        closePartnerModal,
       }}
     >
       {children}

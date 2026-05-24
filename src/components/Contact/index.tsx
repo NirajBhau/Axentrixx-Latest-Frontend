@@ -102,9 +102,6 @@ const Contact = () => {
                     <p className="mt-2 text-base text-body-color dark:text-dark-6">
                       <a href="tel:+919998249244" className="hover:text-primary transition">+91 9998249244</a>
                     </p>
-                    <p className="mt-1 text-base text-body-color dark:text-dark-6">
-                      <a href="tel:+919173384391" className="hover:text-primary transition">+91 9173384391</a>
-                    </p>
                   </div>
                 </div>
               </div>

@@ -10,7 +10,7 @@ const Clients = () => {
             Recent Happy Clients
           </h2>
           <p className="mx-auto max-w-[770px] text-base text-gray-400">
-            We act as a strategic partner for enterprises, startups, and governments, driving digital transformation through innovative technology solutions.
+            We act as a specialized development partner for digital agencies and businesses worldwide, helping them build and scale high-performance web products.
           </p>
         </div>
         <div className="-mx-4 flex flex-wrap items-center justify-center">

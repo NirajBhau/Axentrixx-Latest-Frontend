@@ -14,10 +14,10 @@ const AboutConnect = () => {
               <h2 className="mb-5 text-3xl font-bold leading-tight text-dark sm:text-4xl sm:leading-[1.2]">
                 Innovation Led,
                 <br />
-                Result Driven
+                Partner Driven
               </h2>
               <p className="mb-8 text-base leading-relaxed text-body-color">
-                We act as your technology partner, ensuring every line of code aligns with your business goals. From concept to deployment, we are with you.
+                We act as your specialized technology partner, ensuring every line of code aligns with your business goals. Whether you are a business looking to scale or an agency needing a reliable development arm, we deliver code that drives results.
               </p>
             </div>
           </div>

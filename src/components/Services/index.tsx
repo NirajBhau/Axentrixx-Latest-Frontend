@@ -12,7 +12,7 @@ const Services = () => {
               WHAT WE DO
             </span>
             <h2 className="text-3xl font-bold text-white sm:text-4xl md:text-[40px] leading-tight">
-              We help to build clients their <br className="hidden md:block" /> dream projects
+              Engineering Web Solutions <br className="hidden md:block" /> That Drive Results
             </h2>
           </div>
           <div className="w-full lg:w-auto">

@@ -25,8 +25,7 @@ const Footer = () => {
                 </span>
               </Link>
               <p className="mb-8 max-w-[270px] text-base text-gray-7">
-                We create digital experiences for brands and companies by using
-                technology.
+                Specialized web development partner for agencies and global businesses. We build high-performing digital solutions at scale.
               </p>
               <div className="-mx-3 flex items-center">
                 {/* <Link
@@ -156,18 +155,18 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    href="/services/ai-automation"
-                    className="mb-3 inline-block text-base text-gray-7 hover:text-primary"
-                  >
-                    AI Automation
-                  </Link>
-                </li>
-                <li>
-                  <Link
                     href="/services/analytics-reporting"
                     className="mb-3 inline-block text-base text-gray-7 hover:text-primary"
                   >
                     Analytics & Reporting
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/services/custom-software"
+                    className="mb-3 inline-block text-base text-gray-7 hover:text-primary"
+                  >
+                    Custom Software
                   </Link>
                 </li>
               </ul>
