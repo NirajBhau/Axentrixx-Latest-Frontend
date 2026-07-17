@@ -101,37 +101,37 @@ export default function RootLayout({
             <CallbackButton />
           </div>
         </Providers>
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID!} />
+        <Script
+          id="cal-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+    (function (C, A, L) {
+      let p = function (a, ar) { a.q.push(ar); };
+      let d = C.document;
+      C.Cal = C.Cal || function () {
+        let cal = C.Cal;
+        let ar = arguments;
+        if (!cal.q) { cal.q = []; }
+        p(cal, ar);
+      };
+      if (C.Cal.ns) return;
+      C.Cal.ns = {};
+      C.Cal.p = p;
+      C.Cal.ar = [];
+      L = d.createElement(A);
+      L.async = 1;
+      L.src = "https://app.cal.com/embed/embed.js";
+      let s = d.getElementsByTagName(A)[0];
+      s.parentNode.insertBefore(L, s);
+    })(window, "script");
+  Cal("init", { origin: "https://cal.com" });
+  Cal("ui", { "styles": { "branding": { "brandColor": "#F7941D", "hideBranding": true } }, "hideEventTypeDetails": true, "layout": "month_view" });
+  `,
+          }}
+        />
       </body>
-      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID!} />
-      <Script
-        id="cal-init"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-  (function (C, A, L) {
-    let p = function (a, ar) { a.q.push(ar); };
-    let d = C.document;
-    C.Cal = C.Cal || function () {
-      let cal = C.Cal;
-      let ar = arguments;
-      if (!cal.q) { cal.q = []; }
-      p(cal, ar);
-    };
-    if (C.Cal.ns) return;
-    C.Cal.ns = {};
-    C.Cal.p = p;
-    C.Cal.ar = [];
-    L = d.createElement(A);
-    L.async = 1;
-    L.src = "https://app.cal.com/embed/embed.js";
-    let s = d.getElementsByTagName(A)[0];
-    s.parentNode.insertBefore(L, s);
-  })(window, "script");
-Cal("init", { origin: "https://cal.com" });
-Cal("ui", { "styles": { "branding": { "brandColor": "#F7941D", "hideBranding": true } }, "hideEventTypeDetails": true, "layout": "month_view" });
-`,
-        }}
-      />
     </html>
   );
 }
