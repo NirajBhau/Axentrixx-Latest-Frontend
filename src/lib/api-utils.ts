@@ -3,8 +3,8 @@ import { NextResponse } from 'next/server';
 // Simple in-memory rate limiter
 const rateLimit = new Map<string, { count: number; resetTime: number }>();
 
-const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
-const MAX_REQUESTS = 5; // 5 requests per window
+const WINDOW_MS = 1 * 60 * 1000; // 1 minute
+const MAX_REQUESTS = 100; // 100 requests per window
 
 /**
  * Check rate limit by identifier (IP or email)

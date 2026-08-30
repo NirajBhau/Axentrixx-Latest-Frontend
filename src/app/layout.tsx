@@ -90,7 +90,7 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning className="!scroll-smooth" lang="en">
-      <body className={`bg-[#FCFCFC] dark:bg-black ${inter.className}`}>
+      <body suppressHydrationWarning className={`bg-[#FCFCFC] dark:bg-black ${inter.className}`}>
         <JsonLd />
         <Providers>
           <div className="isolate">
