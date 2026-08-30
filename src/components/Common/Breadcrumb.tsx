@@ -3,9 +3,11 @@ import Link from "next/link";
 const Breadcrumb = ({
   pageName,
   pageDescription,
+  pageLink,
 }: {
   pageName: string;
   pageDescription?: string;
+  pageLink?: string;
 }) => {
   return (
     <>
@@ -25,8 +27,8 @@ const Breadcrumb = ({
                 <ul className="flex items-center justify-center gap-[10px]">
                   <li>
                     <Link
-                      href="#"
-                      className="text-dark flex items-center gap-[10px] text-base font-medium dark:text-white"
+                      href="/"
+                      className="text-dark flex items-center gap-[10px] text-base font-medium dark:text-white hover:text-primary"
                     >
                       Home
                     </Link>
@@ -37,7 +39,13 @@ const Breadcrumb = ({
                         {" "}
                         /{" "}
                       </span>
-                      {pageName}
+                      {pageLink ? (
+                        <Link href={pageLink} className="hover:text-primary transition-colors">
+                          {pageName}
+                        </Link>
+                      ) : (
+                        pageName
+                      )}
                     </p>
                   </li>
                 </ul>

@@ -19,6 +19,7 @@ const CareersPage = () => {
       <Breadcrumb
         pageName="Careers"
         pageDescription="Build the future with us. We are looking for passionate individuals to join our growing team."
+        pageLink="/careers"
       />
       <CareersView />
     </>
