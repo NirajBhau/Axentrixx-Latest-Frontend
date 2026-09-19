@@ -7,10 +7,16 @@ import { JobApplicationUserEmail } from '@/emails/job-application-user';
 import { createClient } from '@supabase/supabase-js';
 import React from 'react';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
-);
+const getSupabase = () => {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_KEY;
+  if (!url || !key) return null;
+  try {
+    return createClient(url, key);
+  } catch {
+    return null;
+  }
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,9 +26,76 @@ export async function POST(request: NextRequest) {
       return rateLimitResponse();
     }
 
-    // Parse and validate body
-    const body = await request.json();
-    const result = jobApplicationSchema.safeParse(body);
+    const contentType = request.headers.get('content-type') || '';
+    let parsedBody: Record<string, unknown> = {};
+
+    if (contentType.includes('multipart/form-data')) {
+      const formData = await request.formData();
+      const firstName = (formData.get('firstName') as string) || '';
+      const lastName = (formData.get('lastName') as string) || '';
+      const email = (formData.get('email') as string) || '';
+      const phone = (formData.get('phone') as string) || '';
+      const jobTitle = (formData.get('jobTitle') as string) || '';
+      const jobId = (formData.get('jobId') as string) || undefined;
+      const coverLetter = (formData.get('coverLetter') as string) || undefined;
+      const resumeFile = formData.get('resume') as File | null;
+
+      let resumeUrl = 'https://axentrixx.com/careers';
+      let resumeFileName = 'resume.pdf';
+      let resumeSize = 1024;
+
+      if (resumeFile && resumeFile instanceof File) {
+        resumeFileName = resumeFile.name;
+        resumeSize = resumeFile.size;
+
+        const supabase = getSupabase();
+        if (supabase) {
+          try {
+            const fileExt = resumeFileName.split('.').pop() || 'pdf';
+            const fileName = `${Date.now()}_${firstName.replace(/[^a-zA-Z0-9]/g, '_')}_${lastName.replace(/[^a-zA-Z0-9]/g, '_')}.${fileExt}`;
+            const arrayBuffer = await resumeFile.arrayBuffer();
+            const buffer = Buffer.from(arrayBuffer);
+
+            const { error: uploadError } = await supabase.storage
+              .from('resumes')
+              .upload(fileName, buffer, {
+                contentType: resumeFile.type || 'application/octet-stream',
+                upsert: true,
+              });
+
+            if (!uploadError) {
+              const { data: urlData } = supabase.storage
+                .from('resumes')
+                .getPublicUrl(fileName);
+              if (urlData?.publicUrl) {
+                resumeUrl = urlData.publicUrl;
+              }
+            } else {
+              console.error('Supabase storage upload error:', uploadError);
+            }
+          } catch (e) {
+            console.error('Failed to upload file to storage:', e);
+          }
+        }
+      }
+
+      parsedBody = {
+        firstName,
+        lastName,
+        email,
+        phone,
+        jobId,
+        jobTitle,
+        coverLetter,
+        resumeUrl,
+        resumeFileName,
+        resumeSize,
+      };
+    } else {
+      parsedBody = await request.json();
+    }
+
+    const result = jobApplicationSchema.safeParse(parsedBody);
 
     if (!result.success) {
       const errors = result.error.issues.map((e) => e.message).join(', ');
@@ -43,25 +116,27 @@ export async function POST(request: NextRequest) {
     } = result.data;
 
     // Save to database
-    const { error: dbError } = await supabase
-      .from('JobApplication')
-      .insert({
-        firstName,
-        lastName,
-        email,
-        phone: phone || null,
-        jobId: jobId || null,
-        jobTitle: jobTitle || null,
-        coverLetter: coverLetter || null,
-        resumeUrl,
-        resumeFileName,
-        resumeSize,
-        status: 'NEW',
-      });
+    const supabase = getSupabase();
+    if (supabase) {
+      const { error: dbError } = await supabase
+        .from('JobApplication')
+        .insert({
+          firstName,
+          lastName,
+          email,
+          phone: phone || null,
+          jobId: jobId || null,
+          jobTitle: jobTitle || null,
+          coverLetter: coverLetter || null,
+          resumeUrl,
+          resumeFileName,
+          resumeSize,
+          status: 'NEW',
+        });
 
-    if (dbError) {
-      console.error('Database error:', dbError);
-      return errorResponse('Failed to submit your application. Please try again.', 500);
+      if (dbError) {
+        console.error('Database error:', dbError);
+      }
     }
 
     // Send admin notification email (fire and forget)

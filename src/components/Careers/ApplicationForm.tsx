@@ -1,12 +1,6 @@
 
 "use client";
 import { useState, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 interface ApplicationFormProps {
   selectedPosition: string;
@@ -39,7 +33,7 @@ const ApplicationForm = ({ selectedPosition, onBack }: ApplicationFormProps) => 
     }));
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setErrorMessage("");
@@ -57,42 +51,17 @@ const ApplicationForm = ({ selectedPosition, onBack }: ApplicationFormProps) => 
       const firstName = nameParts[0] || "";
       const lastName = nameParts.slice(1).join(" ") || firstName;
 
-      // Upload resume to Supabase Storage
-      const file = formData.resume;
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${Date.now()}_${firstName}_${lastName}.${fileExt}`;
-      const filePath = `${fileName}`;
+      const bodyData = new FormData();
+      bodyData.append("firstName", firstName);
+      bodyData.append("lastName", lastName);
+      bodyData.append("email", formData.email);
+      bodyData.append("phone", formData.phone);
+      bodyData.append("jobTitle", formData.position);
+      bodyData.append("resume", formData.resume);
 
-      const { error: uploadError } = await supabase.storage
-        .from("resumes")
-        .upload(filePath, file);
-
-      if (uploadError) {
-        console.error("Upload error:", uploadError);
-        setErrorMessage("Failed to upload resume. Please try again.");
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Get public URL
-      const { data: urlData } = supabase.storage
-        .from("resumes")
-        .getPublicUrl(filePath);
-
-      // Submit application to API
       const response = await fetch("/api/job-application", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email: formData.email,
-          phone: formData.phone,
-          jobTitle: formData.position,
-          resumeUrl: urlData.publicUrl,
-          resumeFileName: file.name,
-          resumeSize: file.size,
-        }),
+        body: bodyData,
       });
 
       const data = await response.json();

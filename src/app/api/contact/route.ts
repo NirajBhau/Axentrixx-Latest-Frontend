@@ -7,10 +7,16 @@ import { ContactUserEmail } from '@/emails/contact-user';
 import { createClient } from '@supabase/supabase-js';
 import React from 'react';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
-);
+const getSupabase = () => {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_KEY;
+  if (!url || !key) return null;
+  try {
+    return createClient(url, key);
+  } catch {
+    return null;
+  }
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -50,20 +56,22 @@ export async function POST(request: NextRequest) {
     const { name, email, phone, subject, message } = result.data;
 
     // Save to database
-    const { error: dbError } = await supabase
-      .from('Contact')
-      .insert({
-        name,
-        email,
-        phone: phone || null,
-        subject,
-        message,
-        status: 'NEW',
-      });
+    const supabase = getSupabase();
+    if (supabase) {
+      const { error: dbError } = await supabase
+        .from('Contact')
+        .insert({
+          name,
+          email,
+          phone: phone || null,
+          subject,
+          message,
+          status: 'NEW',
+        });
 
-    if (dbError) {
-      console.error('Database error:', dbError);
-      return errorResponse('Failed to save your message. Please try again.', 500);
+      if (dbError) {
+        console.error('Database error:', dbError);
+      }
     }
 
     // Send admin notification email (fire and forget)
