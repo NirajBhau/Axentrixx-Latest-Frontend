@@ -1,43 +1,66 @@
-import { Price } from "@/types/price";
+export interface ServicePrice {
+  id: string;
+  nickname: string;
+  tagline: string;
+  description: string;
+  startingFrom: string;
+  isPopular?: boolean;
+  offers: string[];
+  cta: string;
+  ctaHref: string;
+}
 
-export const pricingData: Price[] = [
+export const pricingData: ServicePrice[] = [
   {
-    id: "price_1NQk5TLtGdPVhGLecVfQ7mn0",
-    unit_amount: 100 * 100,
-    nickname: "Basic",
+    id: "starter",
+    nickname: "Starter",
+    tagline: "For Growing Businesses",
+    description: "Perfect for startups and SMEs that need a professional digital presence to establish their brand online.",
+    startingFrom: "Contact Us",
     offers: [
-      "1 User",
-      "All UI components",
-      "Lifetime access",
-      "Free updates",
-      "Use on 1 (one) project",
-      "3 Months support",
+      "Custom Website Design",
+      "Responsive Mobile-First Layout",
+      "Up to 5 Pages",
+      "Basic SEO Setup",
+      "Contact Form Integration",
+      "30-Day Post-Launch Support",
     ],
+    cta: "Get a Quote",
+    ctaHref: "/contact",
   },
   {
-    id: "price_1NQk55LtGdPVhGLefU8AHqHr",
-    unit_amount: 200 * 100,
-    nickname: "Premium",
+    id: "growth",
+    nickname: "Growth",
+    tagline: "For Scaling Companies",
+    description: "Ideal for businesses ready to scale with advanced web apps, analytics integration, and ongoing support.",
+    startingFrom: "Contact Us",
+    isPopular: true,
     offers: [
-      "5 Users",
-      "All UI components",
-      "Lifetime access",
-      "Free updates",
-      "Use on 1 (one) project",
-      "3 Months support",
+      "Full-Stack Web Application",
+      "Custom Admin Dashboard",
+      "Analytics & Reporting Setup",
+      "API & Third-Party Integrations",
+      "Performance Optimization",
+      "3 Months Dedicated Support",
     ],
+    cta: "Get a Quote",
+    ctaHref: "/contact",
   },
   {
-    id: "price_1NQk4eLtGdPVhGLeZsZDsCNz",
-    unit_amount: 300 * 100,
-    nickname: "Business",
+    id: "enterprise",
+    nickname: "Enterprise",
+    tagline: "For Large Organizations",
+    description: "End-to-end digital transformation for enterprises requiring complex systems, AI, and cloud infrastructure.",
+    startingFrom: "Contact Us",
     offers: [
-      "10 Users",
-      "All UI components",
-      "Lifetime access",
-      "Free updates",
-      "Use on 1 (one) project",
-      "3 Months support",
+      "Custom Software Architecture",
+      "AI & Automation Integration",
+      "Cloud-Native Infrastructure",
+      "Multi-System Integrations",
+      "Dedicated Development Team",
+      "Priority 24/7 Support",
     ],
+    cta: "Book a Consultation",
+    ctaHref: "/contact",
   },
 ];

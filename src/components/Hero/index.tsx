@@ -3,11 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useModal } from "@/context/ModalContext";
 import DotPattern from "./DotPattern";
-import { useState } from "react"; // Added useState import
 
 const Hero = () => {
   const { openBookingModal } = useModal(); // Changed openModal to openBookingModal
-  const [isOpen, setIsOpen] = useState(false); // Added useState declaration
 
   return (
     <>

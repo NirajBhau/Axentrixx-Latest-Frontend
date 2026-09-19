@@ -247,7 +247,7 @@ const Footer = () => {
             <div className="w-full px-4 md:w-1/3 lg:w-1/2">
               <div className="my-1 flex justify-center md:justify-end">
                 <p className="text-base text-gray-7">
-                  &copy; 2025 Axentrixx Technologies&reg;. All rights reserved.
+                  &copy; {new Date().getFullYear()} Axentrixx Technologies&reg;. All rights reserved.
                 </p>
               </div>
             </div>

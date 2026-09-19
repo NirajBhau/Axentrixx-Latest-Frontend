@@ -62,7 +62,7 @@ const AboutSectionOne = () => {
                   className="drop-shadow-three dark:hidden dark:drop-shadow-none object-cover"
                 />
                 <Image
-                  src="/images/about/about-image-02-dark.jpg"
+                  src="/images/about/about-image-02.jpg"
                   alt="about axentrixx"
                   fill
                   className="drop-shadow-three hidden dark:block dark:drop-shadow-none object-cover"

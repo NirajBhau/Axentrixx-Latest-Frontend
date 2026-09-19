@@ -33,7 +33,7 @@ const AboutSectionThree = () => {
                 className="drop-shadow-three dark:hidden dark:drop-shadow-none object-cover rounded-md"
               />
               <Image
-                src="/images/about/about-image-02-dark.jpg"
+                src="/images/about/about-image-02.jpg"
                 alt="about image"
                 fill
                 className="drop-shadow-three hidden dark:block dark:drop-shadow-none object-cover rounded-md"
