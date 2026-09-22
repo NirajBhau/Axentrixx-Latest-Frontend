@@ -82,6 +82,7 @@ const Footer = () => {
                   aria-label="social link"
                   href="https://www.linkedin.com/company/axentrixx/"
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="px-3 text-gray-7 hover:text-white"
                 >
                   <svg

@@ -38,6 +38,7 @@ const AboutConnect = () => {
                 <Link
                   href="https://www.linkedin.com/company/axentrixx/"
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E7E7E7] text-body-color hover:border-[#0077B5] hover:bg-[#0077B5] hover:text-white transition"
                 >
                   <svg
@@ -57,6 +58,7 @@ const AboutConnect = () => {
                 <Link
                   href="https://wa.me/919998249244?text=Hello%20Axentrixx%2C%20I%20would%20like%20to%20discuss%20a%20project."
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E7E7E7] text-body-color hover:border-[#25D366] hover:bg-[#25D366] hover:text-white transition"
                 >
                   <svg

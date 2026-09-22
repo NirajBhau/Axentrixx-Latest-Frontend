@@ -61,8 +61,9 @@ const Founder = () => {
 
               <div className="flex items-center space-x-12 mb-16">
                 <a
-                  href="https://www.linkedin.com/"
+                  href="https://www.linkedin.com/company/axentrixx/"
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="group flex items-center space-x-3"
                 >
                   <div className="h-[1px] w-8 bg-[#A1ADBB] group-hover:bg-[#3056D3] group-hover:w-12 transition-all"></div>
