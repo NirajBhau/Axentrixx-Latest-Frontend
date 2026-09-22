@@ -23,13 +23,40 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!service) {
     return {
-      title: "Service Not Found",
+      title: "Service Not Found - Axentrixx",
     };
   }
 
+  const url = `https://axentrixx.com/services/${slug}`;
+  const title = service.seoMetadata?.title || `${service.title} - Web & Software Solutions | Axentrixx`;
+  const description = service.seoMetadata?.description || service.paragraph;
+
   return {
-    title: service.seoMetadata?.title || `${service.title} | Axentrixx Services`,
-    description: service.seoMetadata?.description || service.paragraph,
+    title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "Axentrixx",
+      images: [
+        {
+          url: service.image || "/images/logo/axenlogo.png",
+          width: 1200,
+          height: 630,
+          alt: service.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [service.image || "/images/logo/axenlogo.png"],
+    },
   };
 }
 

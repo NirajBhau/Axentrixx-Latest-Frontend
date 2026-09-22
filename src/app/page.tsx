@@ -20,11 +20,29 @@ const HowItWorks = dynamic(() => import("@/components/HowItWorks"), { ssr: true 
 
 export const metadata: Metadata = {
   title: "Axentrixx - High-Performance Web Development Partner for Agencies",
-  description: "Axentrixx is a specialized web development partner for agencies and global businesses. We build fast, modern, and high-converting websites at scale.",
+  description: "Axentrixx is a specialized web development partner for digital agencies and global enterprises. We engineer lightning-fast Next.js websites, AI tools, and custom software at scale.",
+  alternates: {
+    canonical: "https://axentrixx.com",
+  },
   openGraph: {
     title: "Axentrixx - High-Performance Web Development Partner",
-    description: "Specialized web development arm for agencies and global businesses. We build fast, modern, and high-converting websites.",
+    description: "Specialized web development arm for agencies and global businesses. We build fast, modern, and high-converting websites at scale.",
     url: "https://axentrixx.com",
+    siteName: "Axentrixx",
+    images: [
+      {
+        url: "/images/logo/axenlogo.png",
+        width: 1200,
+        height: 630,
+        alt: "Axentrixx Web Development Agency Partner",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Axentrixx - High-Performance Web Development Partner",
+    description: "Specialized web development arm for agencies and global businesses. We build fast, modern, and high-converting websites at scale.",
+    images: ["/images/logo/axenlogo.png"],
   },
 };
 

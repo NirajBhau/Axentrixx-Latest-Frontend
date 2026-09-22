@@ -4,8 +4,10 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Axentrixx",
-  description: "This page contains privacy policy of Axentrixx.",
-  // other metadata
+  description: "Read Axentrixx's Privacy Policy. Learn how we collect, protect, and handle your data and personal information.",
+  alternates: {
+    canonical: "https://axentrixx.com/privacy-policy",
+  },
 };
 
 const PrivacyPolicy = () => {

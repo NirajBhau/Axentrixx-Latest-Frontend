@@ -5,12 +5,30 @@ import ContactInfo from "@/components/Contact/ContactInfo";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact Us - Let's Build Something Amazing",
-  description: "Have a project in mind? Contact Axentrixx today to discuss your digital transformation needs. Get a free consultation and quote.",
+  title: "Contact Us - Schedule a Free Technical Consultation | Axentrixx",
+  description: "Have a web development project or AI requirement? Contact Axentrixx today for a free consultation, proposal, or agency partnership discussion.",
+  alternates: {
+    canonical: "https://axentrixx.com/contact",
+  },
   openGraph: {
-    title: "Contact Axentrixx",
-    description: "Have a project in mind? Let's discuss your digital transformation needs. Get a free consultation.",
+    title: "Contact Axentrixx - Web Development & AI Partner",
+    description: "Have a project in mind? Contact Axentrixx today for a free consultation, proposal, or agency partnership discussion.",
     url: "https://axentrixx.com/contact",
+    siteName: "Axentrixx",
+    images: [
+      {
+        url: "/images/logo/axenlogo.png",
+        width: 1200,
+        height: 630,
+        alt: "Contact Axentrixx",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Axentrixx - Web Development & AI Partner",
+    description: "Have a project in mind? Contact Axentrixx today for a free consultation, proposal, or agency partnership discussion.",
+    images: ["/images/logo/axenlogo.png"],
   },
 };
 

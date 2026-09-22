@@ -6,14 +6,22 @@ export default function JsonLd() {
     url: "https://axentrixx.com",
     logo: "https://axentrixx.com/images/logo/axenlogo.png",
     description:
-      "Axentrixx builds high-performance websites, AI-powered tools, and custom software to help businesses grow.",
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: "+91-9998249244",
-      contactType: "sales",
-      email: "sales@axentrixx.com",
-      availableLanguage: ["English", "Hindi"],
-    },
+      "Axentrixx is a premier web development partner for digital agencies and global businesses, engineering high-performance websites, AI tools, and custom software.",
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: "+91-9998249244",
+        contactType: "sales",
+        email: "sales@axentrixx.com",
+        availableLanguage: ["English", "Hindi"],
+      },
+      {
+        "@type": "ContactPoint",
+        contactType: "human resources",
+        email: "hr@axentrixx.com",
+        availableLanguage: ["English"],
+      },
+    ],
     sameAs: [
       "https://www.linkedin.com/company/axentrixx",
     ],
@@ -60,41 +68,38 @@ export default function JsonLd() {
     },
     hasOfferCatalog: {
       "@type": "OfferCatalog",
-      name: "Software Development Services",
+      name: "Software & Web Development Services",
       itemListElement: [
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Custom Web Development",
+            name: "High-Performance Web Development",
+            description: "Custom Next.js and React web application engineering built for high conversion and scaling.",
           },
         },
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Mobile App Development",
+            name: "Agency Web Development Partner",
+            description: "Dedicated white-label engineering team for digital marketing and design agencies.",
           },
         },
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "AI Solutions",
+            name: "Custom Software & AI Solutions",
+            description: "Enterprise software, custom API integrations, and AI workflow automation.",
           },
         },
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Data Analytics",
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "Healthcare Management Systems",
+            name: "Analytics & Data Intelligence",
+            description: "Custom business intelligence dashboards, real-time metrics, and reporting.",
           },
         },
       ],

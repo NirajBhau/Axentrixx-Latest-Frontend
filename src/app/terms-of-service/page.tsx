@@ -4,8 +4,10 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms of Service | Axentrixx",
-  description: "This page contains terms of service of Axentrixx.",
-  // other metadata
+  description: "Review the Terms of Service governing your use of Axentrixx software engineering services and web development offerings.",
+  alternates: {
+    canonical: "https://axentrixx.com/terms-of-service",
+  },
 };
 
 const TermsOfService = () => {

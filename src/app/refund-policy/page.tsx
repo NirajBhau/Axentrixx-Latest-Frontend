@@ -3,7 +3,10 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Refund Policy | Axentrixx",
-  description: "This page describes our refund and cancellation policy.",
+  description: "Read Axentrixx's Cancellation & Refund Policy for custom software and web development services.",
+  alternates: {
+    canonical: "https://axentrixx.com/refund-policy",
+  },
 };
 
 const RefundPolicyPage = () => {

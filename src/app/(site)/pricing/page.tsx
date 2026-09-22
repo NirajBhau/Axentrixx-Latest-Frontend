@@ -4,14 +4,33 @@ import Pricing from "@/components/Pricing";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pricing - Transparent Plans for Every Business",
+  title: "Pricing - Transparent Web & Software Development Plans | Axentrixx",
   description:
-    "Explore Axentrixx's transparent pricing plans for web development, AI solutions, and custom software. No hidden fees — just great value for your business.",
+    "Explore Axentrixx's transparent pricing plans for web development, AI solutions, and custom software. Flexible models, zero hidden fees, built for agency scaling.",
+  alternates: {
+    canonical: "https://axentrixx.com/pricing",
+  },
   openGraph: {
-    title: "Axentrixx Pricing Plans",
+    title: "Transparent Web Development Pricing Plans - Axentrixx",
     description:
-      "Transparent pricing for web development, AI solutions, and custom software. Choose the right plan for your business.",
+      "Explore Axentrixx's transparent pricing plans for web development, AI solutions, and custom software. Flexible models for agency partners.",
     url: "https://axentrixx.com/pricing",
+    siteName: "Axentrixx",
+    images: [
+      {
+        url: "/images/logo/axenlogo.png",
+        width: 1200,
+        height: 630,
+        alt: "Axentrixx Pricing Plans",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Transparent Web Development Pricing Plans - Axentrixx",
+    description:
+      "Explore Axentrixx's transparent pricing plans for web development, AI solutions, and custom software.",
+    images: ["/images/logo/axenlogo.png"],
   },
 };
 
