@@ -33,9 +33,9 @@ export async function sendEmail({ to, subject, react }: SendEmailOptions) {
 }
 
 // Send admin notification
-export async function sendAdminEmail(subject: string, react: React.ReactElement) {
+export async function sendAdminEmail(subject: string, react: React.ReactElement, to?: string | string[]) {
   return sendEmail({
-    to: process.env.EMAIL_TO || 'sales@axentrixx.com',
+    to: to || process.env.EMAIL_TO || 'sales@axentrixx.com',
     subject,
     react,
   });

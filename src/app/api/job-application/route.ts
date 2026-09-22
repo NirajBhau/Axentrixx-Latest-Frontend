@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Send admin notification email (fire and forget)
+    // Send admin notification email to HR (fire and forget)
     sendAdminEmail(
       `New Job Application: ${firstName} ${lastName}${jobTitle ? ` - ${jobTitle}` : ''}`,
       React.createElement(JobApplicationAdminEmail, {
@@ -151,7 +151,8 @@ export async function POST(request: NextRequest) {
         coverLetter: coverLetter || undefined,
         resumeUrl,
         resumeFileName,
-      })
+      }),
+      process.env.EMAIL_TO_HR || 'hr@axentrixx.com'
     ).catch(console.error);
 
     // Send user confirmation email (fire and forget)
